@@ -17,7 +17,7 @@ body {
 
 .msgbox {
     width: 100%;
-    height: 15vh;
+    height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -98,4 +98,44 @@ h3
     text-align: center;
     color: white;
     letter-spacing: 1px;
+}
+
+.dialpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 240px;
+  margin: 20px auto;
+}
+
+.dialpad button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%; /* Makes buttons round like a phone dialer */
+  border: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  
+  /* Center text/icons inside buttons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Touch feedback for clicking */
+.dialpad button:active {
+  background-color: #e2e8f0;
+  transform: scale(0.96);
+}
+
+/* Style for non-number action buttons (C and ⌫) */
+.dialpad button.action-btn {
+  background-color: #edf2f7;
+  font-size: 1.1rem;
+  color: #4a5568;
 }
