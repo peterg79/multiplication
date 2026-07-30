@@ -7,7 +7,7 @@ body {
 
 .container {
     width: 100%;
-    height: 100vh;
+    height: 105vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,27 +104,24 @@ h3
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  width: 240px;
+  max-width: 240px; /* Limits the overall grid width */
   margin: 20px auto;
 }
 
 .dialpad button {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%; /* Makes buttons round like a phone dialer */
+  width: 100%;
+  aspect-ratio: 1; /* Automatically keeps height equal to width (perfect circle) */
+  border-radius: 50%;
   border: 1px solid #e0e0e0;
   background-color: #f8f9fa;
   font-size: 1.4rem;
   font-weight: 600;
   color: #333;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
   
-  /* Center text/icons inside buttons */
+  /* Safe text centering on iOS */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
 }
 
 /* Touch feedback for clicking */

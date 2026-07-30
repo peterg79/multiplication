@@ -13,13 +13,11 @@
 
 <body>
     <div class="container">
-        <h3><b> Multiplication Quiz App </b></h3>
+        <h3><b></b></h3>
         <form id="form">
             <p id="score">score : 0</p>
             <h1 id="question">What is X Multiply of X?</h1>
-            <input type="number" id="inp" placeholder="Enter Your Answer" autofocus autocomplete="off">
-            <button id="btn" type="submit">Submit</button>
-            <button id="reload" type="button">New question</button>
+            <input type="number" id="inp" inputmode="none" placeholder="Enter Your Answer" autofocus autocomplete="off">
 
             <div class="dialpad" id="keypad">
                 <button type="button" data-val="1">1</button>
@@ -38,6 +36,9 @@
                 <button type="button" data-val="0">0</button>
                 <button type="button" data-val="backspace" class="action-btn">⌫</button>
             </div>
+
+            <button id="btn" type="submit">Submit</button>
+            <button id="reload" type="button">New question</button>
 
         </form>
         <br /><br /><br />
