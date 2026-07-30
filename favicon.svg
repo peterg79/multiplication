@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Border Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#41a2b8"/>
+      <stop offset="100%" stop-color="#1f7a90"/>
+    </linearGradient>
+
+    <style>
+      .symbol-text {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 800;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+    </style>
+  </defs>
+
+  <!-- Main Rounded Icon Frame (Slightly thinner border for maximum inner space) -->
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="#ffffff" stroke="url(#borderGrad)" stroke-width="20"/>
+
+  <!-- Top-Left: Multiplication Symbol (Dark Teal) -->
+  <text x="165" y="165" class="symbol-text" font-size="220" fill="#0f6b80">×</text>
+
+  <!-- Top-Right: '1' (Cyan/Teal) -->
+  <text x="347" y="165" class="symbol-text" font-size="220" fill="#52c2c7">1</text>
+
+  <!-- Bottom-Left: '6' (Cyan/Teal) -->
+  <text x="165" y="347" class="symbol-text" font-size="220" fill="#52c2c7">6</text>
+
+  <!-- Bottom-Right: '9' (Gold/Yellow) -->
+  <text x="347" y="347" class="symbol-text" font-size="220" fill="#cb9f38">9</text>
+</svg>
