@@ -1,0 +1,83 @@
+body {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  user-select: none;
+  overflow: hidden; 
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.game-card {
+  max-width: 393px;
+  width: 100%;
+  margin: auto;
+  background-color: var(--bs-card-bg);
+}
+
+/* Reserved space for feedback banner to prevent layout jumping */
+.feedback-container {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Invisible border to keep strict 1px height consistency */
+.feedback-container .alert {
+  border: 1px solid transparent;
+  transition: opacity 0.15s linear;
+}
+
+.feedback-container .alert.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Equal gaps horizontally and vertically for dialpad */
+.dialpad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 54px);
+  grid-gap: 12px;
+  justify-content: center;
+}
+
+/* Dialpad Buttons */
+.dialpad-btn {
+  font-size: 1.35rem;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  outline: none !important;
+}
+
+/* Remove sticky focus state on mobile tap */
+.dialpad-btn:focus,
+.dialpad-btn:active {
+  box-shadow: none !important;
+}
+
+/* Apply hover effects ONLY to desktop devices */
+@media (hover: hover) {
+  .dialpad-btn:hover {
+    background-color: var(--bs-secondary);
+    color: #fff;
+  }
+}
+
+/* Fixed height display box using Bootstrap theme variables */
+.display-screen {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-border-color);
+}
