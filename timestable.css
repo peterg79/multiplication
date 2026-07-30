@@ -2,8 +2,10 @@ body {
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
   user-select: none;
+  -webkit-user-select: none; /* Prevents text selection highlight on quick tap */
   overflow: hidden; 
   transition: background-color 0.2s ease, color 0.2s ease;
+  touch-action: manipulation; /* Kills 300ms double-tap delay on mobile Safari */
 }
 
 .game-card {
@@ -25,47 +27,12 @@ body {
 .feedback-container .alert {
   border: 1px solid transparent;
   transition: opacity 0.15s linear;
+  width: 100%;
 }
 
 .feedback-container .alert.hidden {
   opacity: 0;
   visibility: hidden;
-}
-
-/* Equal gaps horizontally and vertically for dialpad */
-.dialpad-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 54px);
-  grid-gap: 12px;
-  justify-content: center;
-}
-
-/* Dialpad Buttons */
-.dialpad-btn {
-  font-size: 1.35rem;
-  width: 54px;
-  height: 54px;
-  padding: 0;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  -webkit-tap-highlight-color: transparent;
-  outline: none !important;
-}
-
-/* Remove sticky focus state on mobile tap */
-.dialpad-btn:focus,
-.dialpad-btn:active {
-  box-shadow: none !important;
-}
-
-/* Apply hover effects ONLY to desktop devices */
-@media (hover: hover) {
-  .dialpad-btn:hover {
-    background-color: var(--bs-secondary);
-    color: #fff;
-  }
 }
 
 /* Fixed height display box using Bootstrap theme variables */
@@ -80,4 +47,48 @@ body {
   background-color: var(--bs-tertiary-bg);
   color: var(--bs-body-color);
   border-color: var(--bs-border-color);
+}
+
+/* Equal gaps horizontally and vertically for dialpad grid */
+.dialpad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 54px);
+  grid-gap: 12px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Dialpad Circular Buttons */
+.dialpad-btn {
+  font-size: 1.35rem;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent; /* Removes gray box highlight on iOS tap */
+  outline: none !important;
+  touch-action: manipulation;
+}
+
+/* Instant active state for mobile touch */
+.dialpad-btn:active {
+  transform: scale(0.95);
+  box-shadow: none !important;
+}
+
+/* Remove focus outlines on tap */
+.dialpad-btn:focus {
+  box-shadow: none !important;
+}
+
+/* Apply hover effects ONLY to desktop mouse pointers */
+@media (hover: hover) and (pointer: fine) {
+  .dialpad-btn:hover {
+    background-color: var(--bs-secondary);
+    color: #fff;
+  }
 }

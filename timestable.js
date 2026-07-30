@@ -1,11 +1,11 @@
 // ==========================================
 // GAME CONFIGURATION
-// Adjust min/max multiplication factors here:
 // ==========================================
 const CONFIG = {
   minVal: 1,           // Minimum factor
   maxVal: 12,          // Maximum factor
-  penaltyWeight: 4.0   // Multiplier per score drop (Higher = much stronger focus on missed pairs)
+  penaltyWeight: 4.0,  // Exponential multiplier per score drop
+  alertTimeout: 15000  // Alert visibility time
 };
 
 // Game State Variables
@@ -15,7 +15,7 @@ let score = 0;
 let currentInput = "";
 let feedbackTimeout = null;
 
-// Track net score per distinct pair: { "3x6": 2, "6x3": -1, ... }
+// Track net score per distinct directional pair: { "3x6": 2, "6x3": -1, ... }
 let pairStats = {};
 
 // DOM Elements
@@ -25,14 +25,14 @@ const scoreEl = document.getElementById('score');
 const feedbackEl = document.getElementById('feedback');
 const themeToggleBtn = document.getElementById('theme-toggle');
 
-// Helper to remove focus from tapped button on mobile
+// Remove focus & prevent iOS sticky tap state
 function releaseFocus() {
   if (document.activeElement && document.activeElement instanceof HTMLElement) {
     document.activeElement.blur();
   }
 }
 
-// Distinct key format for directional pairs (AxB is separate from BxA)
+// Key format for directional pairs
 function getPairKey(a, b) {
   return `${a}x${b}`;
 }
@@ -56,7 +56,7 @@ function initData() {
 }
 
 function updateScoreDisplay() {
-  scoreEl.textContent = score;
+  if (scoreEl) scoreEl.textContent = score;
 }
 
 function saveData() {
@@ -64,7 +64,7 @@ function saveData() {
   localStorage.setItem('multiplication_pair_stats', JSON.stringify(pairStats));
 }
 
-// Update net score (+1 for correct, -1 for incorrect) for the specific directional pair
+// Update net score (+1 for correct, -1 for incorrect)
 function updatePairStat(a, b, isCorrect) {
   const key = getPairKey(a, b);
   const currentStat = pairStats[key] || 0;
@@ -72,12 +72,11 @@ function updatePairStat(a, b, isCorrect) {
   saveData();
 }
 
-// Weighted selection: Lower net scores exponential boost in selection probability
+// Weighted selection: Exponential focus on missed pairs
 function getWeightedRandomPair(min, max) {
   const pairs = [];
   let minStat = Infinity;
 
-  // 1. Gather all distinct pairs (A x B) and find the lowest net score
   for (let i = min; i <= max; i++) {
     for (let j = min; j <= max; j++) {
       const key = getPairKey(i, j);
@@ -87,18 +86,12 @@ function getWeightedRandomPair(min, max) {
     }
   }
 
-  // 2. Exponential Weighting: weight = (penaltyWeight) ^ (minStat - stat)
-  // Example with penaltyWeight = 4.0:
-  // - Lowest score pair gets weight = 4.0^0 = 1
-  // - A pair with score 1 point higher gets weight = 4.0^-1 = 0.25 (4x less likely)
-  // - A pair with score 2 points higher gets weight = 4.0^-2 = 0.0625 (16x less likely)
   const weightedPairs = pairs.map(p => {
-    const scoreDiff = p.stat - minStat; // >= 0
+    const scoreDiff = p.stat - minStat;
     const weight = Math.pow(CONFIG.penaltyWeight, -scoreDiff);
     return { ...p, weight };
   });
 
-  // 3. Weighted random selection
   const totalWeight = weightedPairs.reduce((sum, p) => sum + p.weight, 0);
   let randomThreshold = Math.random() * totalWeight;
 
@@ -112,7 +105,7 @@ function getWeightedRandomPair(min, max) {
   return { num1: min, num2: min };
 }
 
-// Render Net Scores as a 2D Directional Matrix in the Console
+// Render Net Scores as a 2D Matrix in Console
 function logStatsToConsole() {
   const matrix = {};
 
@@ -127,12 +120,12 @@ function logStatsToConsole() {
     }
   }
 
-  console.group(`📊 Directional Net Score Matrix (Row × Column) - ${new Date().toLocaleTimeString()}`);
+  console.group(`📊 Net Score Matrix (Row × Column) - ${new Date().toLocaleTimeString()}`);
   console.table(matrix);
   console.groupEnd();
 }
 
-// System & Manual Theme Management
+// Theme Management
 function initTheme() {
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) {
@@ -164,12 +157,12 @@ function toggleTheme() {
   releaseFocus();
 }
 
-// Initialize Game Question
+// Generate Next Question
 function generateQuestion() {
   const selectedPair = getWeightedRandomPair(CONFIG.minVal, CONFIG.maxVal);
   num1 = selectedPair.num1;
   num2 = selectedPair.num2;
-  questionEl.textContent = `${num1} × ${num2} = ?`;
+  if (questionEl) questionEl.textContent = `${num1} × ${num2} = ?`;
   clearAnswer();
 }
 
@@ -182,7 +175,6 @@ function appendDigit(digit) {
   releaseFocus();
 }
 
-// Deletes a single character (backspace)
 function deleteLastDigit() {
   if (currentInput.length > 0) {
     currentInput = currentInput.slice(0, -1);
@@ -191,7 +183,6 @@ function deleteLastDigit() {
   releaseFocus();
 }
 
-// Clears the entire input (DEL)
 function clearAnswer() {
   currentInput = "";
   updateDisplay();
@@ -199,22 +190,26 @@ function clearAnswer() {
 }
 
 function updateDisplay() {
-  answerDisplayEl.innerHTML = currentInput !== "" ? currentInput : "&nbsp;";
+  if (answerDisplayEl) {
+    answerDisplayEl.innerHTML = currentInput !== "" ? currentInput : "&nbsp;";
+  }
 }
 
-// Show Inline Feedback without layout shifts
+// Feedback Banner
 function showFeedback(text, isSuccess) {
   clearTimeout(feedbackTimeout);
 
-  feedbackEl.textContent = text;
-  feedbackEl.className = `alert py-1 px-3 m-0 fw-bold small ${isSuccess ? 'alert-success' : 'alert-danger'}`;
+  if (feedbackEl) {
+    feedbackEl.textContent = text;
+    feedbackEl.className = `alert py-1 px-3 m-0 fw-bold small ${isSuccess ? 'alert-success' : 'alert-danger'}`;
 
-  feedbackTimeout = setTimeout(() => {
-    feedbackEl.className = 'alert py-1 px-3 m-0 fw-bold small hidden';
-  }, 15000);
+    feedbackTimeout = setTimeout(() => {
+      feedbackEl.className = 'alert py-1 px-3 m-0 fw-bold small hidden';
+    }, CONFIG.alertTimeout);
+  }
 }
 
-// Check Answer Logic
+// Check Answer
 function submitAnswer() {
   if (currentInput === "") return;
 
@@ -225,39 +220,43 @@ function submitAnswer() {
     score += 1;
     updateScoreDisplay();
     updatePairStat(num1, num2, true);
-
     showFeedback(`🎉 Correct! ${num1} × ${num2} = ${correctAnswer}`, true);
   } else {
     updatePairStat(num1, num2, false);
     showFeedback(`❌ Incorrect! ${num1} × ${num2} = ${correctAnswer}`, false);
   }
 
-  // Print directional matrix of net scores to console
   logStatsToConsole();
-
   generateQuestion();
   releaseFocus();
 }
 
-// Reset Score, Pair Stats, Clear LocalStorage & Regenerate Question
+// Reset Game State
 function resetProgress() {
   localStorage.clear();
-
   score = 0;
   pairStats = {};
   updateScoreDisplay();
-
-  feedbackEl.className = 'alert py-1 px-3 m-0 fw-bold small hidden';
-  
+  if (feedbackEl) feedbackEl.className = 'alert py-1 px-3 m-0 fw-bold small hidden';
   initTheme();
-
   console.clear();
   console.log("All localStorage data cleared and progress reset.");
-  
   generateQuestion();
 }
 
-// Keyboard Support for Desktop
+// Attach Fast Pointer Handlers for Zero-Lag Mobile Safari Taps
+function bindFastTouchEvents() {
+  const buttons = document.querySelectorAll('button');
+  buttons.forEach(btn => {
+    btn.addEventListener('touchstart', (e) => {
+      // Prevents ghost click triggering twice
+      e.preventDefault();
+      btn.click();
+    }, { passive: false });
+  });
+}
+
+// Keyboard Support
 document.addEventListener('keydown', (e) => {
   if (e.key >= '0' && e.key <= '9') {
     appendDigit(e.key);
@@ -270,7 +269,8 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Initialize Score, Theme & Game
+// Initialize App
 initTheme();
 initData();
 generateQuestion();
+bindFastTouchEvents();
