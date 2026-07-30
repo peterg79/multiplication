@@ -16,7 +16,13 @@ body {
 }
 
 .msgbox {
-    width: 100%;
+    position: fixed;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 50%;
+    /* Spans exactly half the screen width */
+
     height: 10vh;
     display: flex;
     justify-content: center;
@@ -25,25 +31,31 @@ body {
     flex-direction: column;
     padding: 10px 0;
     font-weight: normal;
-    position: fixed;
     z-index: 9999;
     /*font-size: 24px;*/
+
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-h1{
+h1 {
     font-size: 25px;
     font-weight: 700;
     margin-bottom: 20px;
     color: green;
 }
 
-h3
-{
+h3 {
     font-size: 20px;
     font-weight: 700;
     margin: -10px 0 20px;
-} 
-#form, #form2 {
+}
+
+#form,
+#form2 {
     padding: 10px 20px;
     margin: 10px;
     background-color: white;
@@ -53,7 +65,7 @@ h3
 
 #score {
     font-size: 18px;
-    text-align: right;
+    text-align: center;
     font-weight: 700;
     color: green;
 }
@@ -83,7 +95,7 @@ h3
     color: green;
 }
 
-#btn, #reset, #reload {
+#btn {
     background-color: green;
     outline: none;
     border: none;
@@ -100,53 +112,84 @@ h3
     letter-spacing: 1px;
 }
 
+/* Make the row fill the same width as the submit button */
+.button-row {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    /* Adjusts the space between the two smaller buttons */
+}
+
+/* Make both small buttons share the row space exactly 50/50 */
+.button-row button {
+    flex: 1;
+    width: 50%;
+    /* Ensures they split the row evenly */
+    font-size: 10px;
+    font-weight: 700;
+    background-color: green;
+    color: white;
+    box-sizing: border-box;
+    text-align: center;
+    display: block;
+    border-radius: 5px;
+    margin: 10px 0px;
+    outline: none;
+    border: none;
+    padding: 5px 5px;
+}
+
 .dialpad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  max-width: 240px; /* Limits the overall grid width */
-  margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 240px;
+    /* Limits the overall grid width */
+    margin: 20px auto;
 }
 
 .dialpad button {
-  width: 100%;
-  aspect-ratio: 1; /* Automatically keeps height equal to width (perfect circle) */
-  border-radius: 50%;
-  border: 1px solid #e0e0e0;
-  background-color: #f8f9fa;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #333;
-  
-  /* Safe text centering on iOS */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 100%;
+    aspect-ratio: 1;
+    /* Automatically keeps height equal to width (perfect circle) */
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+
+    /* Safe text centering on iOS */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Touch feedback for clicking */
 .dialpad button:active {
-  background-color: #e2e8f0;
-  transform: scale(0.96);
+    background-color: #e2e8f0;
+    transform: scale(0.96);
 }
 
 /* Style for non-number action buttons (C and ⌫) */
 .dialpad button.action-btn {
-  background-color: #edf2f7;
-  font-size: 1.1rem;
-  color: #4a5568;
+    background-color: #edf2f7;
+    font-size: 1.1rem;
+    color: #4a5568;
 }
 
 /* Disable default iOS browser styling on buttons and inputs */
-button, input {
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0; /* Clears iOS default rounded corners if needed */
+button,
+input {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    /* Clears iOS default rounded corners if needed */
 }
 
 /* Hide the default iOS spinner controls on number inputs */
-input[type="number"]::-webkit-inner-spin-button, 
-input[type="number"]::-webkit-outer-spin-button { 
-  -webkit-appearance: none;
-  margin: 0; 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

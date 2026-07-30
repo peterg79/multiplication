@@ -14,8 +14,8 @@
 <body>
     <div class="container">
         <h3><b></b></h3>
+        <br /><br /><br /><br />
         <form id="form">
-            <p id="score">score : 0</p>
             <h1 id="question">What is X Multiply of X?</h1>
             <input type="number" id="inp" inputmode="none" placeholder="Enter Your Answer" autofocus autocomplete="off">
 
@@ -38,12 +38,12 @@
             </div>
 
             <button id="btn" type="submit">Submit</button>
-            <button id="reload" type="button">New question</button>
+            <div class="button-row">
+                <button id="reload" type="button">New question</button>
+                <button type="button" id="reset">Reset progress</button>
+            </div>
 
-        </form>
-        <br /><br /><br />
-        <form id="form2">
-            <button type="button" id="reset">Reset progress</button>
+            <p id="score">score : 0</p>
         </form>
     </div>
     <script src="script.js"></script>
