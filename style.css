@@ -112,6 +112,22 @@ h3 {
     letter-spacing: 1px;
 }
 
+/* Apply anti-lag styles to submit button too */
+button[type="submit"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Instant press styling */
+button[type="submit"].is-pressed {
+    opacity: 0.8;
+    transform: scale(0.96);
+    transition: none;
+    /* Instant render */
+}
+
 /* Make the row fill the same width as the submit button */
 .button-row {
     display: flex;

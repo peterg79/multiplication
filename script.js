@@ -43,6 +43,7 @@ function showTopMessage(text, bgcolor, textcolor) {
 }
 
 const form = document.getElementById('form');
+const submitBtn = document.getElementById('btn');
 const input = document.getElementById('inp');
 const keypad = document.getElementById('keypad');
 const scoreElement = document.getElementById('score');
@@ -136,9 +137,20 @@ function fillContent() {
     scoreElement.textContent = `score : ${score}`;
 }
 
-form.addEventListener('submit', function () {
+// 1. INSTANT VISUAL FEEDBACK FOR SUBMIT BUTTON
+submitBtn.addEventListener('touchstart', function () {
+    submitBtn.classList.add('is-pressed');
+}, { passive: true });
 
-    event.preventDefault();
+submitBtn.addEventListener('touchend', function () {
+    submitBtn.classList.remove('is-pressed');
+});
+
+submitBtn.addEventListener('touchcancel', function () {
+    submitBtn.classList.remove('is-pressed');
+});
+
+function handleSubmit() {
     if (input.value.trim() === '') {
         return;
     }
@@ -159,6 +171,18 @@ form.addEventListener('submit', function () {
     }
     input.focus();
     fillContent();
+}
+
+// 2. TRIGGER INSTANT ACTION ON POINTER DOWN
+submitBtn.addEventListener('pointerdown', function (event) {
+    event.preventDefault(); // Stop default form submit and click delays
+    handleSubmit();
+});
+
+// 3. FALLBACK FOR STANDARD FORM SUBMIT (e.g. pressing 'Enter' on a physical keyboard)
+form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Stop page reload
+    handleSubmit();
 });
 
 function updateScore(arg) {
