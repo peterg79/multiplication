@@ -191,10 +191,34 @@ fillContent();
 //localStorage.removeItem("score");
 
 
-keypad.addEventListener('click', function (event) {
+// 1. INSTANT VISUAL FEEDBACK (Fires at 0ms physical contact)
+keypad.addEventListener('touchstart', function (event) {
+    const btn = event.target.closest('button');
+    if (!btn) return;
+
+    // Instantly highlight the button
+    btn.classList.add('is-pressed');
+}, { passive: true });
+
+// 2. REMOVE HIGHLIGHT ON RELEASE
+keypad.addEventListener('touchend', function (event) {
+    const btn = event.target.closest('button');
+    if (btn) btn.classList.remove('is-pressed');
+});
+
+keypad.addEventListener('touchcancel', function (event) {
+    const btn = event.target.closest('button');
+    if (btn) btn.classList.remove('is-pressed');
+});
+
+
+keypad.addEventListener('pointerdown', function (event) {
     // Ignore clicks that aren't on dialpad buttons
     const btn = event.target.closest('button');
     if (!btn) return;
+
+    // Prevent default to stop synthetic double click / zooming quirks
+    event.preventDefault();
 
     const val = btn.dataset.val;
 

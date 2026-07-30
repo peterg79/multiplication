@@ -163,12 +163,35 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* Disables double-tap zoom delay on touch devices */
+    touch-action: manipulation;
+
+    /* Prevents text selection highlight box when tapping rapidly */
+    -webkit-user-select: none;
+    user-select: none;
+
+    /* Removes tap highlight flash color on iOS */
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Touch feedback for clicking */
+
+/*
 .dialpad button:active {
     background-color: #e2e8f0;
     transform: scale(0.96);
+}
+*/
+
+/* DO NOT rely on button:active for iOS */
+
+/* Instead, use a custom class triggered by JS */
+.dialpad button.is-pressed {
+    background-color: #cbd5e1 !important;
+    transform: scale(0.92);
+    transition: none;
+    /* Force instant render without animations */
 }
 
 /* Style for non-number action buttons (C and ⌫) */
