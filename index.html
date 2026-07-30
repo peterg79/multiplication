@@ -13,20 +13,40 @@
 
 <body>
     <div class="container">
-        <h3><b> Multiplication Quiz App </b></h3>
+        <h3><b></b></h3>
+        <br /><br /><br /><br />
         <form id="form">
-            <p id="score">score : 0</p>
             <h1 id="question">What is X Multiply of X?</h1>
-            <input type="number" id="inp" placeholder="Enter Your Answer" 
-                   autofocus autocomplete="off">
+            <input type="number" id="inp" inputmode="none" placeholder="Enter Your Answer" autofocus autocomplete="off">
+
+            <div class="dialpad" id="keypad">
+                <button type="button" data-val="1">1</button>
+                <button type="button" data-val="2">2</button>
+                <button type="button" data-val="3">3</button>
+
+                <button type="button" data-val="4">4</button>
+                <button type="button" data-val="5">5</button>
+                <button type="button" data-val="6">6</button>
+
+                <button type="button" data-val="7">7</button>
+                <button type="button" data-val="8">8</button>
+                <button type="button" data-val="9">9</button>
+
+                <button type="button" data-val="clear" class="action-btn">C</button>
+                <button type="button" data-val="0">0</button>
+                <button type="button" data-val="backspace" class="action-btn">⌫</button>
+            </div>
+
             <button id="btn" type="submit">Submit</button>
-            <button id="reload" type="button">New question</button>
-        </form>
-        <br /><br /><br />
-        <form id="form2">
-            <button type="button" id="reset">Reset progress</button>
+            <div class="button-row">
+                <button id="reload" type="button">New question</button>
+                <button type="button" id="reset">Reset progress</button>
+            </div>
+
+            <p id="score">score : 0</p>
         </form>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
