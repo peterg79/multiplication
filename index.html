@@ -69,14 +69,14 @@
           <button class="btn btn-outline-secondary dialpad-btn" onclick="appendDigit('8')">8</button>
           <button class="btn btn-outline-secondary dialpad-btn" onclick="appendDigit('9')">9</button>
 
-          <button class="btn btn-outline-danger dialpad-btn fs-6" onclick="clearAnswer()">DEL</button>
+          <button class="btn btn-outline-danger dialpad-btn fs-6" onclick="clearAnswer()">AC</button>
           <button class="btn btn-outline-secondary dialpad-btn" onclick="appendDigit('0')">0</button>
-          <button class="btn btn-outline-secondary dialpad-btn fs-5" onclick="deleteLastDigit()">⌫</button>
+          <button class="btn btn-outline-warning dialpad-btn fs-5" onclick="deleteLastDigit()">⌫</button>
         </div>
 
         <!-- Action Buttons -->
         <div class="d-grid gap-2">
-          <button class="btn btn-primary fw-semibold py-2" onclick="submitAnswer()">Submit</button>
+          <button class="btn btn-primary btn-lg fw-semibold py-2" onclick="submitAnswer()">Submit</button>
           <div class="row g-2">
             <div class="col-6">
               <button class="btn btn-outline-primary btn-sm w-100 py-1" onclick="generateQuestion()">New Question</button>
